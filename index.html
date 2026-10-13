@@ -1,0 +1,238 @@
+<!-- =========================================================================
+     INTERACTIVE WIDGET: CINEMATIC REALISM COMPARISON LAB
+     Designed for Canvas LMS Integration (Introductory Film Appreciation)
+     ========================================================================= -->
+
+<div class="film-app-module-container" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 850px; margin: 30px auto; padding: 25px; background: #fdfdfd; border: 1px solid #e1e4e8; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); color: #24292e;">
+
+  <div class="widget-box" style="padding: 25px; background: #ffffff; border: 1px solid #d1d5db; border-radius: 6px;">
+    
+    <!-- HEADER -->
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; border-bottom: 2px solid #eaecef; padding-bottom: 12px;">
+      <div style="display: flex; align-items: center;">
+        <span style="background: #0366d6; color: white; padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px;">Interactive Comparison Lab</span>
+        <h3 style="margin: 0 0 0 12px; font-size: 20px; color: #24292e;">Traditional Drama vs. Documentary-Style Realism</h3>
+      </div>
+      <div style="font-size: 14px; font-weight: bold; color: #586069;">
+        Matches: <span id="cr-score" style="color: #0366d6;">0</span> / 4
+      </div>
+    </div>
+
+    <p style="font-size: 14px; color: #586069; line-height: 1.5; margin-bottom: 20px;">
+      How do filmmakers visually separate a polished Hollywood drama from a gritty, pseudo-documentary thriller[cite: 3]? Test your understanding by matching each cinematic dimension below to its correct stylistic approach! Click a dimension on the left, then select the matching description.
+    </p>
+
+    <!-- GAME BOARD CONTAINER -->
+    <div id="cr-game-board" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+      
+      <!-- DIMENSIONS (Left Column) -->
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <h4 style="margin: 0 0 5px 0; font-size: 15px; color: #24292e;">Cinematic Dimensions</h4>
+        
+        <button id="dim-btn-0" onclick="selectDimension(0)" style="text-align: left; padding: 12px 15px; background: #f6f8fa; border: 2px solid #e1e4e8; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; color: #24292e; transition: all 0.2s;">
+          1. Camera Movement
+        </button>
+        <button id="dim-btn-1" onclick="selectDimension(1)" style="text-align: left; padding: 12px 15px; background: #f6f8fa; border: 2px solid #e1e4e8; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; color: #24292e; transition: all 0.2s;">
+          2. Lighting Design
+        </button>
+        <button id="dim-btn-2" onclick="selectDimension(2)" style="text-align: left; padding: 12px 15px; background: #f6f8fa; border: 2px solid #e1e4e8; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; color: #24292e; transition: all 0.2s;">
+          3. Pacing & Editing
+        </button>
+        <button id="dim-btn-3" onclick="selectDimension(3)" style="text-align: left; padding: 12px 15px; background: #f6f8fa; border: 2px solid #e1e4e8; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; color: #24292e; transition: all 0.2s;">
+          4. Audience Relationship
+        </button>
+      </div>
+
+      <!-- DESCRIPTIONS (Right Column - Randomized or Listed for Selection) -->
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <h4 style="margin: 0 0 5px 0; font-size: 15px; color: #24292e;">Stylistic Approaches</h4>
+        <div id="cr-target-area" style="display: flex; flex-direction: column; gap: 10px;">
+          <!-- Dynamically injected description options -->
+        </div>
+      </div>
+
+    </div>
+
+    <!-- FEEDBACK BOX -->
+    <div id="cr-feedback" style="margin-top: 20px; padding: 15px; background: #f1f8ff; border-left: 4px solid #0366d6; border-radius: 4px; font-size: 14px; color: #24292e; display: none;">
+      <span id="cr-feedback-text"></span>
+    </div>
+
+    <!-- COMPLETION SCREEN -->
+    <div id="cr-completion" style="display: none; text-align: center; padding: 25px;">
+      <div style="font-size: 48px; margin-bottom: 10px;">🏆</div>
+      <h3 style="margin: 0 0 8px 0; font-size: 22px; color: #24292e;">Comparison Mastered!</h3>
+      <p style="font-size: 14px; color: #586069; margin-bottom: 15px;">You successfully distinguished traditional Hollywood staging from pseudo-documentary realism[cite: 3].</p>
+      <button onclick="resetComparisonGame()" style="background: #0366d6; color: white; border: none; padding: 10px 20px; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer;">
+        Play Again 🔄
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- EMBEDDED JAVASCRIPT FOR INTERACTIVE COMPARISON GAME -->
+<script>
+  (function() {
+    const dimensions = [
+      {
+        name: "Camera Movement",
+        traditional: "Smooth, stabilized tracking shots, cranes, and locked-down tripods.",
+        pseudo: "Erratic handheld operation, shaky framing, and reactive amateur zoom-ins[cite: 3]."
+      },
+      {
+        name: "Lighting Design",
+        traditional: "Flattering, polished three-point studio lighting designed to separate subjects from backgrounds.",
+        pseudo: "Harsh fluorescent office lights, natural daylight, practical lamps, or low-light digital grain[cite: 3]."
+      },
+      {
+        name: "Pacing & Editing",
+        traditional: "Invisible, seamless continuity editing designed to maintain smooth dramatic flow.",
+        pseudo: "Fragmented jump cuts, archival news montages, and simulated security camera feeds[cite: 3]."
+      },
+      {
+        name: "Audience Relationship",
+        traditional: "Observers watching a staged story unfold from a safe, objective distance.",
+        pseudo: "Eyewitness participants immersed inside a chaotic, unfolding real-world crisis[cite: 3]."
+      }
+    ];
+
+    let selectedDimIdx = null;
+    let matchedCount = 0;
+    let completedDims = [false, false, false, false];
+
+    // Shuffle options for the right column
+    let rightOptions = [];
+    dimensions.forEach((d, idx) => {
+      rightOptions.push({ text: d.traditional, type: 'traditional', dimIdx: idx });
+      rightOptions.push({ text: d.pseudo, type: 'pseudo', dimIdx: idx });
+    });
+    // Fisher-Yates shuffle
+    for (let i = rightOptions.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [rightOptions[i], rightOptions[j]] = [rightOptions[j], rightOptions[i]];
+    }
+
+    window.selectDimension = function(idx) {
+      if (completedDims[idx]) return;
+      
+      // Reset button highlights
+      for (let i = 0; i < 4; i++) {
+        const btn = document.getElementById('dim-btn-' + i);
+        if (!completedDims[i]) {
+          btn.style.borderColor = '#e1e4e8';
+          btn.style.background = '#f6f8fa';
+        }
+      }
+
+      selectedDimIdx = idx;
+      const activeBtn = document.getElementById('dim-btn-' + idx);
+      activeBtn.style.borderColor = '#0366d6';
+      activeBtn.style.background = '#f1f8ff';
+
+      const fb = document.getElementById('cr-feedback');
+      fb.style.display = 'block';
+      document.getElementById('cr-feedback-text').innerHTML = `<strong>Selected Dimension:</strong> ${dimensions[idx].name}. Now click the matching stylistic approach on the right!`;
+    };
+
+    function renderRightOptions() {
+      const container = document.getElementById('cr-target-area');
+      container.innerHTML = '';
+
+      rightOptions.forEach((opt, optIdx) => {
+        const btn = document.createElement('button');
+        btn.innerText = opt.text;
+        btn.style.cssText = "text-align: left; padding: 12px 15px; background: #f6f8fa; border: 1px solid #e1e4e8; border-radius: 6px; cursor: pointer; font-size: 13px; color: #24292e; transition: all 0.2s; line-height: 1.4;";
+        
+        btn.onmouseover = () => { if(!opt.matched) btn.style.background = '#edf2f7'; };
+        btn.onmouseout = () => { if(!opt.matched) btn.style.background = '#f6f8fa'; };
+
+        btn.onclick = function() {
+          if (selectedDimIdx === null) {
+            const fb = document.getElementById('cr-feedback');
+            fb.style.display = 'block';
+            document.getElementById('cr-feedback-text').innerHTML = `<span style="color: #d73a49;">Please select a Cinematic Dimension on the left first!</span>`;
+            return;
+          }
+
+          if (opt.dimIdx === selectedDimIdx) {
+            // Correct Match!
+            opt.matched = true;
+            completedDims[selectedDimIdx] = true;
+            matchedCount++;
+            document.getElementById('cr-score').innerText = matchedCount;
+
+            // Style left button as completed
+            const leftBtn = document.getElementById('dim-btn-' + selectedDimIdx);
+            leftBtn.style.background = '#e6ffed';
+            leftBtn.style.borderColor = '#28a745';
+            leftBtn.style.color = '#22863a';
+            leftBtn.style.cursor = 'default';
+
+            // Hide matched option or style it green
+            btn.style.background = '#e6ffed';
+            btn.style.borderColor = '#28a745';
+            btn.style.color = '#22863a';
+            btn.style.cursor = 'default';
+            btn.disabled = true;
+
+            const fb = document.getElementById('cr-feedback');
+            fb.style.display = 'block';
+            document.getElementById('cr-feedback-text').innerHTML = `<strong style="color: #28a745;">✓ Correct Match!</strong> You correctly identified the approach for ${dimensions[selectedDimIdx].name}.`;
+
+            selectedDimIdx = null;
+
+            if (matchedCount === 4) {
+              document.getElementById('cr-game-board').style.display = 'none';
+              document.getElementById('cr-feedback').style.display = 'none';
+              document.getElementById('cr-completion').style.display = 'block';
+            }
+          } else {
+            // Incorrect Match
+            const fb = document.getElementById('cr-feedback');
+            fb.style.display = 'block';
+            document.getElementById('cr-feedback-text').innerHTML = `<strong style="color: #d73a49;">✗ Not a match!</strong> That description belongs to a different cinematic dimension. Try again.`;
+          }
+        };
+
+        if (opt.matched) {
+          btn.style.background = '#e6ffed';
+          btn.style.borderColor = '#28a745';
+          btn.style.color = '#22863a';
+          btn.disabled = true;
+        }
+
+        container.appendChild(btn);
+      });
+    }
+
+    window.resetComparisonGame = function() {
+      selectedDimIdx = null;
+      matchedCount = 0;
+      completedDims = [false, false, false, false];
+      document.getElementById('cr-score').innerText = 0;
+
+      for (let i = 0; i < 4; i++) {
+        const btn = document.getElementById('dim-btn-' + i);
+        btn.style.background = '#f6f8fa';
+        btn.style.borderColor = '#e1e4e8';
+        btn.style.color = '#24292e';
+        btn.style.cursor = 'pointer';
+      }
+
+      rightOptions.forEach(opt => opt.matched = false);
+      // Reshuffle
+      for (let i = rightOptions.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [rightOptions[i], rightOptions[j]] = [rightOptions[j], rightOptions[i]];
+      }
+
+      document.getElementById('cr-completion').style.display = 'none';
+      document.getElementById('cr-game-board').style.display = 'grid';
+      document.getElementById('cr-feedback').style.display = 'none';
+      renderRightOptions();
+    };
+
+    renderRightOptions();
+  })();
+</script>
